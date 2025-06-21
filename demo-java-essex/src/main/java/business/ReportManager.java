@@ -20,8 +20,7 @@ import java.util.zip.ZipFile;
 import model.Report;
 
 public class ReportManager {
-	int batchNumber = 0;
-	int batchSize = 3000;
+	int batchSize = 10000;
 
 	public void configureReport(Report report) {
 		// report should be saved to database here
@@ -39,12 +38,25 @@ public class ReportManager {
 			System.out.println("Init processing at " + start);
 			double mean = computeMeanInParallel(zipInputStream, columnIndex, batchSize);
 			Instant end = Instant.now();
+			System.out.println("Finish processing at " + end);
 			Duration duration = Duration.between(start, end);
 			System.out.println("Duration: " + duration.toMillis() + " ms");
 			report.setOutcome(mean);
+			showReport(report);
+		} else {
+			throw new RuntimeException("not implemented");
 		}
 		return report;
 
+	}
+
+	private void showReport(Report report) {
+		System.out.println("\n--- Report Details ---");
+		System.out.println("Column position: " + report.getColumnPosition());
+		System.out.println("Operation type: " + report.getOperationTypeDesc());
+		System.out.println("Dataset location: " + report.getDatasetLocation());
+		System.out.println("Outcome: " + report.getOutcome());
+		System.out.println("--------");
 	}
 
 	private InputStream readZipFile(String location) {
@@ -54,7 +66,6 @@ public class ReportManager {
 			URL zipUrl = this.getClass().getClassLoader().getResource(location);
 			if (zipUrl == null) {
 				System.err.println("dataset not found in classpath");
-				throw new RuntimeException("sorry");
 			}
 			// close resource afterward
 			ZipFile zipFile = new ZipFile(new File(zipUrl.toURI()));
@@ -68,7 +79,8 @@ public class ReportManager {
 			}
 		} catch (Exception e) {
 			System.err.println("Error generating report: " + e.getMessage());
-			throw new RuntimeException("sorry");
+			//chain exceptions to find the exception root
+			throw new RuntimeException("sorry", e);
 		}
 		return is;
 	}
@@ -98,7 +110,7 @@ public class ReportManager {
 			}
 		} catch (Exception e) {
 			System.err.println("Error generating report: " + e.getMessage());
-			throw new RuntimeException("sorry");
+			throw new RuntimeException("sorry", e);
 		} finally {
 //			System.out.println("closed zipfile resource");
 			try {
@@ -117,7 +129,7 @@ public class ReportManager {
 				result = future.get();
 			} catch (Exception e) {
 				System.err.println("Error generating report: " + e.getMessage());
-				throw new RuntimeException("sorry");
+				throw new RuntimeException("sorry", e);
 			}
 			totalSum += result[0];
 			totalCount += (long) result[1];
@@ -129,7 +141,7 @@ public class ReportManager {
 	}
 
 	private double[] processBatch(List<String[]> batch, int colIndex) {
-		System.out.println("init processBatch " + batchNumber);
+		System.out.println("init processBatch " + Thread.currentThread().getId());
 		double sum = 0.0;
 		int count = 0;
 
@@ -140,12 +152,14 @@ public class ReportManager {
 					try {
 						sum += Double.parseDouble(value.trim());
 						count++;
-					} catch (NumberFormatException ignored) {
+					} catch (NumberFormatException e) {
+						throw new RuntimeException(e);
+									
 					}
 				}
 			}
 		}
-		System.out.println("end processBatch " + batchNumber++);
+		System.out.println("end processBatch " + Thread.currentThread().getId());
 		return new double[] { sum, count };
 	}
 }

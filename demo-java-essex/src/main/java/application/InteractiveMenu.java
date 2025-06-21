@@ -1,3 +1,4 @@
+package application;
 import java.util.Scanner;
 
 import business.LoginManager;
@@ -47,12 +48,11 @@ public class InteractiveMenu {
 
 			case 2:
 				System.out.println("");
-				report = reportManager.generateReport(report);
-				System.out.println("\n--- Report Details ---");
-				System.out.println("Column position: " + report.getColumnPosition());
-				System.out.println("Operation type: " + report.getOperationTypeDesc());
-				System.out.println("Dataset location: " + report.getDatasetLocation());
-				System.out.println("Outcome: " + report.getOutcome());
+				try {
+					report = reportManager.generateReport(report);
+				}catch(Exception e) {
+					//do nothing
+				}
 				break;
 
 			case 3:
