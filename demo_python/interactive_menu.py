@@ -1,13 +1,15 @@
-
-# from business.login_manager import LoginManager
-from model.model import Report
+import sys
+from business.business import LoginManager
 from business.business import ReportManager
+from model.model import Report
+from security.security import Authenticator
 
 def main():
     # Authorize user
-    # login_manager = LoginManager()
-    # login_manager.handle_login()
-
+    authenticator = Authenticator(True)
+    login_manager = LoginManager(authenticator)
+    login_manager.handleLogin()
+    # if successful
     report = None
     report_manager = ReportManager()
 
@@ -22,8 +24,8 @@ def main():
         if option == "1":
             position = int(input("\nEnter position of column to analyze: ").strip())
             operation_type = int(input("\nEnter operation to be applied to specified column. MEAN = 1, SUM = 2, MIN = 3: ").strip())
-            location = input("\nEnter dataset location in classpath: ").strip()
-            print()
+            location = input("\nEnter dataset location in data folder: ").strip()
+            print("")
             report = Report(position, operation_type, location, None)
             report_manager.configure_report(report)
 
@@ -31,9 +33,8 @@ def main():
             print("")
             try:
                 report = report_manager.generate_report(report)
-            except Exception:
-                # Do nothing
-                pass
+            except Exception as ex:
+                print("Error generating report: ", ex)
 
         elif option == "3":
             print("\nExiting... Goodbye!")

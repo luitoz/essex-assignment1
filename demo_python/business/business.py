@@ -107,6 +107,32 @@ class ReportManager:
 
 
         mean = total_sum / total_count
-        print(f"Mean of column at index {col_index}: {mean:.4f}")
         return mean
 
+import getpass
+import time
+from security.security import Authenticator
+
+class LoginManager:
+    """
+    Handles user input and authentication flow.
+    Stores user credentials in memory if login is successful.
+    """
+    def __init__(self, authenticator: Authenticator):
+        self.authenticator = authenticator
+        self.max_attempts = 3
+
+    def handleLogin(self):
+        for attempt in range(1, self.max_attempts + 1):
+            print(f"Attempt {attempt} of {self.max_attempts}")
+            username = input("\nUsername: ").strip()
+            password = getpass.getpass("Password: ").strip()  # Hidden input
+
+            if self.authenticator.login(username, password):
+                print(f"Logged in user: {self.authenticator.user.name}")
+                return
+            else:
+                time.sleep(3)
+
+        print("Maximum login attempts exceeded. Exiting.")
+        sys.exit()
