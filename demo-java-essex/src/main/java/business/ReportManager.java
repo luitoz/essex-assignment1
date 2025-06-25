@@ -24,7 +24,7 @@ public class ReportManager {
 
 	public void configureReport(Report report) {
 		// report should be saved to database here
-		System.out.println("Report configuration succeeded");
+		System.out.println("Report configuration succeeded: "+ report);
 	}
 
 	public Report generateReport(Report report) {
@@ -65,7 +65,7 @@ public class ReportManager {
 			// 1Locate the ZIP in the classpath
 			URL zipUrl = this.getClass().getClassLoader().getResource(location);
 			if (zipUrl == null) {
-				System.err.println("dataset not found in classpath");
+				throw new RuntimeException("dataset not found in classpath");
 			}
 			// close resource afterward
 			ZipFile zipFile = new ZipFile(new File(zipUrl.toURI()));
@@ -78,9 +78,9 @@ public class ReportManager {
 				}
 			}
 		} catch (Exception e) {
-			System.err.println("Error generating report: " + e.getMessage());
+//			System.err.println("Error generating report: " + e.getMessage());
 			//chain exceptions to find the exception root
-			throw new RuntimeException("sorry", e);
+			throw new RuntimeException(e);
 		}
 		return is;
 	}
@@ -110,7 +110,7 @@ public class ReportManager {
 			}
 		} catch (Exception e) {
 			System.err.println("Error generating report: " + e.getMessage());
-			throw new RuntimeException("sorry", e);
+			throw new RuntimeException(e);
 		} finally {
 //			System.out.println("closed zipfile resource");
 			try {
@@ -129,7 +129,7 @@ public class ReportManager {
 				result = future.get();
 			} catch (Exception e) {
 				System.err.println("Error generating report: " + e.getMessage());
-				throw new RuntimeException("sorry", e);
+				throw new RuntimeException(e);
 			}
 			totalSum += result[0];
 			totalCount += (long) result[1];
@@ -141,7 +141,7 @@ public class ReportManager {
 	}
 
 	private double[] processBatch(List<String[]> batch, int colIndex) {
-		System.out.println("init processBatch " + Thread.currentThread().getId());
+//		System.out.println("init processBatch " + Thread.currentThread().getId());
 		double sum = 0.0;
 		int count = 0;
 
@@ -159,7 +159,7 @@ public class ReportManager {
 				}
 			}
 		}
-		System.out.println("end processBatch " + Thread.currentThread().getId());
+//		System.out.println("end processBatch " + Thread.currentThread().getId());
 		return new double[] { sum, count };
 	}
 }

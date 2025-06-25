@@ -17,16 +17,20 @@ public class ReportManagerTest {
     }
     @Test
     void testReport() {
+    	System.out.println("init testReport");
     	Report report = new Report(20, 1, "data/xaa.zip", null);
 		reportManager.configureReport(report);
 		reportManager.generateReport(report);
+		System.out.println("finish testReport");
     }
     @Test
     void testReportWrongDatasetLocation() {
+    	System.out.println("init testReport2");
     	Report report = new Report(-1, 1, "dataset", null);
 		reportManager.configureReport(report);
     	Exception exception = assertThrows(Exception.class, () -> reportManager.generateReport(report));
-    	assertEquals("sorry", exception.getMessage());
+    	assertEquals("java.lang.RuntimeException: dataset not found in classpath", exception.getMessage());
+    	System.out.println("finish testReport");
     }
     
     @Test
@@ -42,9 +46,7 @@ public class ReportManagerTest {
     	Report report = new Report(-1, 1, "data/xaa.zip", null);
 		reportManager.configureReport(report);
     	Exception exception = assertThrows(Exception.class, () -> reportManager.generateReport(report));
-//    	exception.printStackTrace();
-//    	reportManager.showReport(report);
-    	assertEquals("sorry", exception.getMessage());
+    	assertEquals("java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException", exception.getMessage());
     }
     
     @Test
@@ -52,9 +54,7 @@ public class ReportManagerTest {
     	Report report = new Report(0, 1, "data/xaa.zip", null);
 		reportManager.configureReport(report);
     	Exception exception = assertThrows(Exception.class, () -> reportManager.generateReport(report));
-//    	exception.printStackTrace();
-//    	reportManager.showReport(report);
-    	assertEquals("sorry", exception.getMessage());
+    	assertEquals("java.util.concurrent.ExecutionException: java.lang.RuntimeException: java.lang.RuntimeException: java.lang.NumberFormatException: For input string: \"A-2047758\"", exception.getMessage());
     }
 
 }

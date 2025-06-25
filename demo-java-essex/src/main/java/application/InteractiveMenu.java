@@ -51,7 +51,7 @@ public class InteractiveMenu {
 				try {
 					report = reportManager.generateReport(report);
 				}catch(Exception e) {
-					//do nothing
+					System.err.println("Error generating report: " + e.getMessage());
 				}
 				break;
 

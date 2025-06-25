@@ -66,4 +66,12 @@ public class Report {
 		this.outcome = outcome;
 	}
 
+	@Override
+	public String toString() {
+		return "Report [columnPosition=" + columnPosition + ", operationType=" + operationType + ", "
+				+ (datasetLocation != null ? "datasetLocation=" + datasetLocation + ", " : "")
+				+ (outcome != null ? "outcome=" + outcome : "") + "]";
+	}
+	
+
 }
