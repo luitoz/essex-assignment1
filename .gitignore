@@ -1,6 +1,4 @@
-demo_python/business/__pycache__/__init__.cpython-312.pyc
-demo_python/business/__pycache__/business.cpython-312.pyc
-demo_python/model/__pycache__/__init__.cpython-312.pyc
-demo_python/model/__pycache__/model.cpython-312.pyc
-demo_python/security/__pycache__/__init__.cpython-312.pyc
-demo_python/security/__pycache__/security.cpython-312.pyc
+demo_python/business/__pycache__/*.pyc
+demo_python/model/__pycache__/*.pyc
+demo_python/security/__pycache__/*.pyc
+demo_python/business/__pycache__/*.pyc

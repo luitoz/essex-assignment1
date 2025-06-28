@@ -30,7 +30,7 @@ class ReportManagerTest(unittest.TestCase):
         with self.assertRaisesRegex(Exception, "dataset not found:*"):
             obj.generate_report(report)    
     
-    def test_report_wrong_dataset_location(self):
+    def test_report(self):
         obj = ReportManager()
         report = Report(20,1,"xaa.zip")     
         obj.generate_report(report)   
