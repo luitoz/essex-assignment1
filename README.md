@@ -130,3 +130,20 @@ This builds the application and runs unit tests.
 ```
 ./mvnw exec:java -Dexec.mainClass="application.InteractiveMenu" -Djava.security.auth.login.config==src/main/resources/sample_jaas.config
 ```
+
+## Benchmark
+The generateReport method of ReportManager class handles a "large" dataset. To efficiently do that, I implemented a simple batch process that reads a file in chunks of manageable size and then process each chunk concurrently. The response time of these processes, considering 10 executions, in Java and Python are:
+
+| Duration (ms) | Java | Python |
+|---------------|------|--------|
+| 1             | 465  | 1083   |
+| 2             | 499  | 1107   |
+| 3             | 332  | 1103   |
+| 4             | 285  | 1122   |
+| 5             | 286  | 1134   |
+| 6             | 252  | 1187   |
+| 7             | 199  | 1200   |
+| 8             | 327  | 1053   |
+| 9             | 301  | 1091   |
+| 10            | 350  | 1280   |
+| **Mean**      | 329.6| 1136   |

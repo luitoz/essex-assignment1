@@ -31,9 +31,10 @@ class ReportManagerTest(unittest.TestCase):
             obj.generate_report(report)    
     
     def test_report(self):
-        obj = ReportManager()
-        report = Report(20,1,"xaa.zip")     
-        obj.generate_report(report)   
+        for i in range(10):            
+            obj = ReportManager()
+            report = Report(20,1,"xaa.zip")     
+            obj.generate_report(report)   
 
 
         

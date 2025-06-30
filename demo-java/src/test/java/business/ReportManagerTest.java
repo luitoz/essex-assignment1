@@ -18,9 +18,11 @@ public class ReportManagerTest {
     @Test
     void testReport() {
     	System.out.println("init testReport");
-    	Report report = new Report(20, 1, "data/xaa.zip", null);
-		reportManager.configureReport(report);
-		reportManager.generateReport(report);
+		for(int i=0; i<10;i++){
+			Report report = new Report(20, 1, "data/xaa.zip", null);
+			reportManager.configureReport(report);
+			reportManager.generateReport(report);
+		}
 		System.out.println("finish testReport");
     }
     @Test
