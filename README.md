@@ -19,9 +19,10 @@ The user can interact with the application using a terminal
 - After processing, it shows a report of the processed data.
 ![alt text](image-1.png)
 ## Sample Application Technical Design
-Class Diagram
-Behavioural Diagram
-cont. wait for academic license
+### Authentication Class Diagram
+![alt text](image-7.png)
+### Reporting Class Diagram
+![alt text](image-8.png)
 ## Test cases
 ### Generate Report 
 
