@@ -135,7 +135,8 @@ This builds the application and runs unit tests.
 ## Benchmark
 The generateReport method of ReportManager class handles a "large" dataset. To efficiently do that, I implemented a simple batch process that reads a file in chunks of manageable size and then process each chunk concurrently. The response time of these processes, considering 10 executions, in Java and Python are:
 
-| Duration (ms) | Java | Python |
+Table 1: Java and Python benchmark.
+| Execution number | Duration (ms) in Java | Duration (ms) in Python |
 |---------------|------|--------|
 | 1             | 465  | 1083   |
 | 2             | 499  | 1107   |
@@ -148,3 +149,6 @@ The generateReport method of ReportManager class handles a "large" dataset. To e
 | 9             | 301  | 1091   |
 | 10            | 350  | 1280   |
 | **Mean**      | 329.6| 1136   |
+
+
+Note: To replicate this benchmark, see classes ReportManagerTest in both Java and Python projects.
